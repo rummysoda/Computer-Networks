@@ -32,12 +32,16 @@ public class TCPServer {
 	Writer writer = new OutputStreamWriter(clientSocket.getOutputStream());
 
 	// We can read what the client has said
-	String message = reader.readLine();
-	System.out.println("The client said : " + message);
-
+	String htmlfile = "";
+	while(true){
+		String message = reader.readLine();
+		if message.isEmpty() {break;}
+		htmlfile += "\n" + message;
+	}
+	
 	// Sending a message to the client at the other end of the socket
 	System.out.println("Sending a message to the client");
-	writer.write("Nice to meet you\n");
+	writer.write(htmlfile);
 	writer.flush();
 	// To make better use of bandwidth, messages are not sent
 	// until the flush method is used
