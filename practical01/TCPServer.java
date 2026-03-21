@@ -24,32 +24,33 @@ public class TCPServer {
 	// The ServerSocket listens and then creates as Socket object
 	// for each incoming connection.
         System.out.println("Server waiting for client...");
-        Socket clientSocket = serverSocket.accept();
-        System.out.println("Client connected!");
-	
-	// Like files, we use readers and writers for convenience
-	BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
-	Writer writer = new OutputStreamWriter(clientSocket.getOutputStream());
+		while(true){
+				Socket clientSocket = serverSocket.accept();
+				System.out.println("Client connected!");
+			
+			// Like files, we use readers and writers for convenience
+			BufferedReader reader = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+			Writer writer = new OutputStreamWriter(clientSocket.getOutputStream());
 
-	// We can read what the client has said
-	String htmlfile = "";
-	while(true){
-		String message = reader.readLine();
-		if (message.isEmpty()) {break;}
-		htmlfile += "\n" + message;
-	}
-	
-	// Sending a message to the client at the other end of the socket
-	System.out.println("Sending a message to the client");
-	writer.write(htmlfile);
-	writer.flush();
-	// To make better use of bandwidth, messages are not sent
-	// until the flush method is used
+			// We can read what the client has said
+			while(true) {
+				String message = reader.readLine();
+				if (message.isEmpty()) {break;}
+				System.out.println("The client said : " + message);
+			}
 
-	String answer = reader.readLine();
-	System.println(answer)
-
-	// Close down the connection
-	clientSocket.close();
+			// Sending a message to the client at the other end of the socket
+			System.out.println("Sending a message to the client");
+			writer.write("HTTP/1.1 200 OK\n");
+			writer.write("Content-Type: text/html\n");
+			writer.write("\n")
+			writer.write("<html><h1> This is my website! </h1></html>\n");
+			writer.flush();
+			// To make better use of bandwidth, messages are not sent
+			// until the flush method is used
+			
+			// Close down the connection
+			clientSocket.close();
+		}
     }
 }
