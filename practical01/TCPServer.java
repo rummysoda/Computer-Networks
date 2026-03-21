@@ -14,7 +14,7 @@ public class TCPServer {
     public static void main(String[] args) throws IOException {
 
 	// Port numbers will be discussed in detail in lecture 5
-	int port = 4567;
+	int port = 18080;
 
 	// The server side is slightly more complex
 	// First we have to create a ServerSocket
@@ -35,7 +35,7 @@ public class TCPServer {
 	String htmlfile = "";
 	while(true){
 		String message = reader.readLine();
-		if message.isEmpty() {break;}
+		if (message.isEmpty()) {break;}
 		htmlfile += "\n" + message;
 	}
 	
@@ -45,6 +45,9 @@ public class TCPServer {
 	writer.flush();
 	// To make better use of bandwidth, messages are not sent
 	// until the flush method is used
+
+	String answer = reader.readLine();
+	System.println(answer)
 
 	// Close down the connection
 	clientSocket.close();
